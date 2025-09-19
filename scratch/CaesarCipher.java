@@ -1,5 +1,14 @@
 import java.util.Scanner;
 
+/**
+ * This program is designed to gather user input
+ * of certain text, and then ask for a shift
+ * and then shift the text accordingly
+ * i.e HELLO by 3 becomes KHOOR
+ * 
+ * @author Jacob Smith
+ **/
+
 public class CaesarCipher {
 
     // Encrypts text using Caesar's Cipher
@@ -27,10 +36,10 @@ public class CaesarCipher {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Caesar Cipher Program");
-        System.out.print("Enter text: ");
+        System.out.print("Enter text (Encrypted or Decrypted): ");
         String text = scanner.nextLine();
 
-        System.out.print("Enter shift (e.g., 3): ");
+        System.out.print("Enter shift (e.g., 3 to Encrypt & -3 to Decrypt): ");
         int shift = scanner.nextInt();
 
         String encrypted = encrypt(text, shift);
