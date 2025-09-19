@@ -39,7 +39,7 @@ public class CaesarCipher {
         System.out.print("Enter text (Encrypted or Decrypted): ");
         String text = scanner.nextLine();
 
-        System.out.print("Enter shift (e.g., 3 to Encrypt & -3 to Decrypt): ");
+        System.out.print("Enter shift (e.g. Positive integers to Encrypt & Negative Integers to Decrypt: ");
         int shift = scanner.nextInt();
 
         String encrypted = encrypt(text, shift);
