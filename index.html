@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Difference Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 24px 28px;
+            border-radius: 8px;
+            width: 320px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background: #1e88e5;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1669bb;
+        }
+
+        #result {
+            margin-top: 16px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Time Difference Calculator in Seconds</h2>
+
+    <input type="number" id="currentTime" placeholder="Current time (seconds)">
+    <input type="number" id="targetTime" placeholder="Target time (seconds)">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+function calculate() {
+    const current = document.getElementById("currentTime").value;
+    const target = document.getElementById("targetTime").value;
+
+    if (current === "" || target === "") {
+        document.getElementById("result").innerText = "Please enter both values.";
+        return;
+    }
+
+    const diff = Math.abs(target - current);
+
+    const hours = Math.floor(diff / 3600);
+    const minutes = Math.floor((diff % 3600) / 60);
+    const seconds = diff % 60;
+
+    document.getElementById("result").innerText =
+        hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+}
+</script>
+</body>
+</html>
