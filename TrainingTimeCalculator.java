@@ -11,6 +11,7 @@ public class TrainingTimeCalculator {
      * Runs the program and handles user input.
      * @param args command-line arguments (not used)
      */
+    @SuppressWarnings("ConvertToTryWithResources")
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -59,34 +60,15 @@ public class TrainingTimeCalculator {
      * @return the full ability name, or null if invalid
      */
     private static String normalizeAbility(String input) {
-        switch (input) {
-            case "power":
-            case "pwr":
-                return "power";
-
-            case "defense":
-            case "def":
-                return "defense";
-
-            case "magic":
-            case "mag":
-                return "magic";
-
-            case "health":
-            case "hp":
-                return "health";
-
-            case "psychics":
-            case "psy":
-                return "psychics";
-
-            case "mobility":
-            case "mob":
-                return "mobility";
-
-            default:
-                return null;
-        }
+        return switch (input) {
+            case "power", "pwr" -> "power";
+            case "defense", "def" -> "defense";
+            case "magic", "mag" -> "magic";
+            case "health", "hp" -> "health";
+            case "psychics", "psy" -> "psychics";
+            case "mobility", "mob" -> "mobility";
+            default -> null;
+        };
     }
 
     /**
