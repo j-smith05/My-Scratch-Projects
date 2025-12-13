@@ -2,62 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Difference Calculator</title>
 
     <style>
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --primary-hover: #0056b3;
+            --background-color: #f8f9fa; /* Light Gray */
+            --card-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            --border-color: #ced4da;
+            --success-color: #28a745;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
 
         .card {
             background: white;
-            padding: 24px 28px;
-            border-radius: 8px;
-            width: 320px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
+            padding: 30px;
+            border-radius: 12px;
+            width: 350px;
+            box-shadow: var(--card-shadow);
         }
 
         h2 {
             margin-top: 0;
-            margin-bottom: 16px;
-            font-size: 20px;
+            margin-bottom: 25px;
+            font-size: 22px;
+            color: #343a40;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+        
+        fieldset {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        legend {
+            font-weight: bold;
+            color: var(--primary-color);
+            padding: 0 10px;
         }
 
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 12px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
             font-size: 14px;
+            color: #495057;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box; 
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
 
         button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 4px;
-            background: #1e88e5;
+            border-radius: 6px;
+            background: var(--primary-color);
             color: white;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            transition: background 0.3s;
         }
 
         button:hover {
-            background: #1669bb;
+            background: var(--primary-hover);
         }
 
         #result {
-            margin-top: 16px;
-            font-weight: bold;
-            font-size: 14px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #e2f0fb;
+            color: #333;
+            font-size: 16px;
+            text-align: left;
+        }
+        
+        #result strong {
+            color: var(--success-color);
+            font-size: 18px;
         }
     </style>
 </head>
@@ -65,34 +117,70 @@
 <body>
 
 <div class="card">
-    <h2>Time Difference Calculator in Seconds</h2>
+    <h2>Time Difference Calculator</h2>
 
-    <input type="number" id="currentTime" placeholder="Current time (seconds)">
-    <input type="number" id="targetTime" placeholder="Target time (seconds)">
+    <fieldset>
+        <legend>Time Input (in Seconds)</legend>
+        <label for="currentTime">Start Time</label>
+        <input type="number" id="currentTime" value="0" min="0">
+        
+        <label for="targetTime">End Time</label>
+        <input type="number" id="targetTime" value="3725" min="0">
+    </fieldset>
 
-    <button onclick="calculate()">Calculate</button>
+    <button onclick="calculate()">Calculate Difference</button>
 
-    <p id="result"></p>
+    <div id="result">Enter values and click "Calculate" to see the result.</div>
 </div>
 
 <script>
 function calculate() {
-    const current = document.getElementById("currentTime").value;
-    const target = document.getElementById("targetTime").value;
+    const currentInput = document.getElementById("currentTime").value;
+    const targetInput = document.getElementById("targetTime").value;
 
-    if (current === "" || target === "") {
-        document.getElementById("result").innerText = "Please enter both values.";
+    const resultElement = document.getElementById("result");
+
+    // 1. Input Validation and Coercion
+    if (currentInput === "" || targetInput === "") {
+        resultElement.innerHTML = "<strong style='color: red;'>Error:</strong> Please enter a value for both times.";
+        return;
+    }
+    
+    const current = parseFloat(currentInput);
+    const target = parseFloat(targetInput);
+
+    if (isNaN(current) || isNaN(target) || current < 0 || target < 0) {
+        resultElement.innerHTML = "<strong style='color: red;'>Error:</strong> Please enter valid non-negative numbers.";
         return;
     }
 
-    const diff = Math.abs(target - current);
-
+    // 2. Calculation Logic
+    // We only care about the absolute difference (magnitude)
+    const diff = Math.abs(target - current); 
+    
     const hours = Math.floor(diff / 3600);
     const minutes = Math.floor((diff % 3600) / 60);
     const seconds = diff % 60;
 
-    document.getElementById("result").innerText =
-        hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+    // 3. Formatting the Output
+    const timeComponents = [];
+    if (hours > 0) timeComponents.push(hours + " hour" + (hours !== 1 ? "s" : ""));
+    if (minutes > 0) timeComponents.push(minutes + " minute" + (minutes !== 1 ? "s" : ""));
+    // Include seconds only if there's a non-zero remainder, or if the total diff is zero
+    if (seconds > 0 || diff === 0) timeComponents.push(seconds + " second" + (seconds !== 1 ? "s" : ""));
+
+    let timeString = timeComponents.join(", ");
+    
+    // Improve readability by replacing the last comma with " and "
+    const lastCommaIndex = timeString.lastIndexOf(',');
+    if (lastCommaIndex !== -1) {
+        timeString = timeString.substring(0, lastCommaIndex) + " and" + timeString.substring(lastCommaIndex + 1);
+    }
+    
+    // Final Result Display (without direction)
+    const outputHTML = `The time difference is: <strong>${timeString}</strong>.`;
+    
+    resultElement.innerHTML = outputHTML;
 }
 </script>
 </body>
