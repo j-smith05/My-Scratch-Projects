@@ -1,0 +1,4 @@
+# personal scores/settings and Python cache
+.arcade_data.json
+.arcade_data.tmp
+__pycache__/
